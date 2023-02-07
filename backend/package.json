@@ -4,7 +4,8 @@
   "description": "Express backend",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"nodemon server.js\" \"cd ../frontend && npm start\""
+    "postinstall": "npm run webpack",
+    "webpack": "webpack"
   },
   "author": "Dawson Hormuth",
   "license": "ISC",
