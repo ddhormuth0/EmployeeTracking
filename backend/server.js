@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 //cors lets me send data to the front end
 app.use(cors(corsOptions))
-//uses the employeeRoutes and journalRoutes components, they hanles all routes given to the server
+//uses the employeeRoutes and journalRoutes components, they handles all routes given to the server
 app.use('/employees', employeeRoutes)
 app.use('/journals', journalRoutes)
 app.use('/sign-in', signIn)
