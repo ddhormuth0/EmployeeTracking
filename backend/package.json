@@ -9,7 +9,7 @@
   "scripts": {
     "postinstall": "npm run webpack",
     "webpack": "webpack",
-    "heroku-prebuild": "npm install --dev"
+    "heroku-prebuild": "npm install --only=dev && npm install && npm run build"
   },
   "author": "Dawson Hormuth",
   "license": "ISC",
