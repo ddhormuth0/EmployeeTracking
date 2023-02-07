@@ -28,6 +28,6 @@ app.use('/journals', journalRoutes)
 app.use('/sign-in', signIn)
 
 //start the server on this port
-app.listen(5000, function () {
+app.listen(process.env.PORT || 5000, function () {
     console.log("Server is running on port 5000")
 })
