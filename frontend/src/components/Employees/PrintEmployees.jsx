@@ -10,14 +10,14 @@ function PrintEmployees() {
     const [employees, setEmployees] = useState([]);
     //send this with get request to order page
     const [orderBy, setOrderBy] = useState("Order By");
-    const [clickedEmployee, setClickedEmpoyee] = useState("")
+    const [clickedEmployee, setClickedEmployee] = useState("")
     const [stateTracker, setStateTracker] = useState(false)
 
     //the information we are getting from the backend
     useEffect(() => {
         //get request
-        console.log(process.env.REACT_APP_PROXY + "employees?orderBy=" + orderBy)
-        fetch(process.env.REACT_APP_PROXY + "employees?orderBy=" + orderBy)
+        console.log(process.env.REACT_APP_PROXY + "/employees?orderBy=" + orderBy)
+        fetch(process.env.REACT_APP_PROXY + "/employees?orderBy=" + orderBy)
             //turns data into json
             .then(res => res.json())
             //sets the employee data to the data we can use in the state
@@ -95,7 +95,7 @@ function PrintEmployees() {
                 <tbody>
                     {employees.map(employee => (
                         //on click we are going to pass the emplooyee_id to the setClickedEmployee and activate the overlay
-                        <tr key={employee.employee_id} aria-expanded="false" data-bs-toggle="modal" data-bs-target="#journalsModal" onClick={() => { setClickedEmpoyee(employee.employee_id); }}>
+                        <tr key={employee.employee_id} aria-expanded="false" data-bs-toggle="modal" data-bs-target="#journalsModal" onClick={() => { setClickedEmployee(employee.employee_id); }}>
                             <td>{employee.fName}</td>
                             <td>{employee.lName}</td>
                             <td>{employee.numOfTotal}</td>
