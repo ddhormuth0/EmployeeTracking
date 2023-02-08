@@ -17,7 +17,7 @@ const app = express()
 const corsOptions = {
     origin: process.env.CORS,
 }
-
+app.use(cors)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 //cors lets me send data to the front end
