@@ -16,8 +16,8 @@ function PrintEmployees() {
     //the information we are getting from the backend
     useEffect(() => {
         //get request
-        console.log(process.env.REACT_APP_PROXY + "/employees?orderBy=" + orderBy)
-        fetch(process.env.REACT_APP_PROXY + "/employees?orderBy=" + orderBy)
+        console.log(process.env.REACT_APP_PROXY + "employees?orderBy=" + orderBy)
+        fetch(process.env.REACT_APP_PROXY + "employees?orderBy=" + orderBy)
             //turns data into json
             .then(res => res.json())
             //sets the employee data to the data we can use in the state
