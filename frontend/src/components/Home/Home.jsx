@@ -5,13 +5,13 @@ function Home() {
         <div>
             <div className="row justify-content-center mt-5">
                 {/* Title For Home Page */}
-                <div className="col-6">
+                <div className="col-md-6">
                     <h1 className="mt-5">Welcome to the Employee Tracker</h1>
                 </div>
             </div>
             {/* Information Section */}
             <div className="row justify-content-center mt-5">
-                <div className="col-6">
+                <div className="col-md-6">
                     <h3><strong><u>Problem to Solve</u></strong></h3>
                     <p>
                         Hello my name is Dawson Hormuth and I am a Computer Science and Mathematics (Double Major) at

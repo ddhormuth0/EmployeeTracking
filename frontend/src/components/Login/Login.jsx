@@ -30,8 +30,8 @@ function Login(props) {
                 <h1 className="mt-5 text-center">Welcome to the Employee Tracker</h1>
             </div>
             {/* login */}
-            <div className="mt-5 row justify-content-center">
-                <div className="border border-5 col-3">
+            <div className="my-5 row justify-content-center">
+                <div className="border border-5 col-md-3">
                     <h3 className="text-center">Login</h3>
                     <form onSubmit={onSubmit}>
                         <div className="mb-3">
