@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AuthService from "../services/auth_service"
-import NavBar from "../PageLayout/NavBar"
 
 function Login(props) {
 
