@@ -5,6 +5,7 @@ import Layout from "./PageLayout/Layout"
 import Home from "./Home/Home"
 import Journals from "./Journals/JournalsHome"
 import Login from "./Login/Login"
+import Forms from "./Forms/FormsHome"
 
 function App(){
 
@@ -19,6 +20,7 @@ function App(){
                     <Route path="employees" element={<Employees />}/>
                     <Route path="journals" element={<Journals />}/>
                     <Route path="sign-in" element={<Login checkAccount={checkAccount} setCheckAccount={setCheckAccount}/>}/>
+                    <Route path="forms" element={<Forms />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

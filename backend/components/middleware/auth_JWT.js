@@ -23,6 +23,7 @@ const verifyToken = (req, res, next) => {
       } else {
         //set the user id
         userId = decoded.id
+        //sends the user on to the next matching route
         next()
       }
     })

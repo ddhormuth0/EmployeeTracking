@@ -11,17 +11,17 @@ function PrintJournals(props) {
     return (
         <div>
             {
-                //if journal is being selected to delete siplay this, also pass the parents function into the props
+                //if journal is being selected to delete display this, also pass the parents function into the props
                 <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <DeleteJournal state={props.state} changeState={props.changeState} journal_id={journalToDelete} />
                 </div>
             }
             {props.journalsToPrint.map((journal) => {
                 //changes the format of the date
-                const journalDate = new Date(journal.j_date.substring(0, 4), journal.j_date.substring(5, 6), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day: "numeric" });
+                const journalDate = new Date(journal.j_date.substring(0, 4), (parseInt(journal.j_date.substring(5, 7))-1).toString(), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" });
 
                 return (
-                    <div key={journal.journal_id} className="row px-4 my-5 top-of-journals position-relative">
+                    <div key={journal.journal_id} className="row px-4 my-5 position-relative">
 
                         {/* centers the journals */}
                         <div className="col-lg-4 col-md-2" />
@@ -37,12 +37,12 @@ function PrintJournals(props) {
                             </div>
                             <div className="card-body">
                                 <h2 className="text-center">{journal.fName + " " + journal.lName}</h2>
-                                <p className="my-4 p-1 border border-3 rounded-pill">{journal.content}</p>
+                                <p className="my-4 p-3 border border-3 rounded-pill">{journal.content}</p>
                             </div>
                             <div className="card-footer">
-                                <p className="d-inline-block mb-0 ms-0">{journalDate}</p> 
+                                <p className="mb-0 ms-0">{journalDate}</p> 
                                 {/* displays the giving employees first initial and last name */}
-                                <p className="d-inline-block position-absolute end-0 me-4 mb-0">{journal.g_fName.substring(0,1) + ". " + journal.g_lName}</p>
+                                <p className="end-0 me-4 mb-0">{journal.g_fName.substring(0,1) + ". " + journal.g_lName}</p>
                             </div>
                         </div>
                     </div>

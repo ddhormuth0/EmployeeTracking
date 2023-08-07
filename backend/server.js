@@ -8,6 +8,8 @@ const cors = require('cors')
 const employeeRoutes = require('./components/routes/employee_routes')
 const journalRoutes = require('./components/routes/journal_routes')
 const signIn = require('./components/routes/sing_in')
+const formRoutes = require('./components/routes/form_routes')
+const questionsRoutes = require('./components/routes/questions_routes')
 const bcrypt = require('bcrypt')
 
 
@@ -26,6 +28,8 @@ app.use(cors())
 app.use('/employees', employeeRoutes)
 app.use('/journals', journalRoutes)
 app.use('/sign-in', signIn)
+app.use('/forms', formRoutes)
+app.use('/questions', questionsRoutes)
 
 //start the server on this port
 app.listen(5000, function () {
