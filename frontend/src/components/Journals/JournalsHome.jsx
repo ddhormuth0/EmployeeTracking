@@ -70,7 +70,7 @@ function Journals(props) {
 
                 <div className="col-12 col-lg-6">
                     <div className="row mx-2">
-                    <div className="dropdown col-6 d-grid">
+                        <div className="dropdown col-6 d-grid">
                             <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {show}
                             </button>

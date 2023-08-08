@@ -13,7 +13,7 @@ function WriteJournals(props) {
     const [showInfo, setShowInfo] = useState(false)
     const [showInfoGiving, setShowInfoGiving] = useState(false)
     const [employeeIDGiving, setEmployeeIDGiving] = useState("")
-    const [isReady, setIsReady] = useState("false")
+    const [isReady, setIsReady] = useState(false)
     const [dismiss, setDismiss] = useState("")
 
     //update if we should submit the journal

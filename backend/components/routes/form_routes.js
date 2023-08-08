@@ -41,7 +41,7 @@ router.route("/")
         //get the information that we want to add
         const title = req.body.title
         const scale = req.body.scale
-        const employeeID = req.body.employeeID
+        const employee_id = req.body.employee_id
 
         //connect to the database
         pool.getConnection((err, conn) => {
@@ -50,7 +50,7 @@ router.route("/")
             //set up the string, the ? ? represent variables that we will input later
             const insertQry = "INSERT INTO forms (title, employee_creator_id, scale) VALUES (?, ?, ?)"
             //run the insert command
-            conn.query(insertQry, [title, employeeID, scale], (error, result) => {
+            conn.query(insertQry, [title, employee_id, scale], (error, result) => {
                 conn.release()
                 if (error) throw error
                 res.json(result)
@@ -63,13 +63,13 @@ router.route("/")
     //uses body requests, it does not say this is bad but it could be looked into
     .delete([authJWT.verifyToken, authJWT.isAdmin],(req, res) => {
         //get the information that we want to delete
-        const formID = req.body.formID
+        const form_id = req.body.form_id
         //connect to the database
         pool.getConnection((err, conn) => {
             if (err) throw err
             const qry = "DELETE FROM forms WHERE form_id=?"
             //run the delete command
-            conn.query(qry, [formID], (error, result) => {
+            conn.query(qry, [form_id], (error, result) => {
                 conn.release()
                 if (error) throw error
                 res.json(result)

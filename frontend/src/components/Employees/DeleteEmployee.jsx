@@ -40,7 +40,7 @@ function DeleteEmployee(props) {
                 </div>
                 <div className="modal-body">
                     <h4>Are You Sure?</h4>
-                    <p>Deletition is permanent. It will also delete any journals where this employee was the author or the reciever.</p>
+                    <p>Deletion is permanent. It will also delete any journals where this employee was the receiver.</p>
                     <SearchEmployees state={props.state} setShow={setShowInfo} show={showInfo} setID={setEmployee_id} onClickOutside={() => setShowInfo(false)} />
                 </div>
                 <div className="modal-footer">

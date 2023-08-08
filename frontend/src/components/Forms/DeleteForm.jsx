@@ -1,26 +1,26 @@
 import React from "react"
 import authHeader from "../services/auth_header"
 
-function DeleteJournal(props) {
+function DeleteForm(props) {
 
-    function deleteJournal() {
+    function deleteForm() {
 
         //stops page from refreshing after submit
         // evt.preventDefault()
         //object we are going to send/post
-        const journal = {
-            journal_id: props.journal_id
+        const form = {
+            form_id: props.form_id
         }
 
         //sends the post request
-        fetch(process.env.REACT_APP_PROXY + "/journals", {
+        fetch(process.env.REACT_APP_PROXY + "/forms", {
             //type of method we are doing
             method: "DELETE",
             //type of information we are sending
 
             headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
             //data we are sending
-            body: JSON.stringify(journal)
+            body: JSON.stringify(form)
         })
             //if props state is true then we set it to false, and vice versa, this will reload the journals
             .then((response) => {
@@ -37,14 +37,14 @@ function DeleteJournal(props) {
         <div className="modal-dialog">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h3 className="modal-title">Delete This Journal?</h3>
+                    <h3 className="modal-title">Delete This Form?</h3>
                 </div>
                 <div className="modal-body">
-                    <p>This action cannot be undone, are you sure you want to delete this journal?</p>
+                    <p>It will remove all scores related to the form. This action cannot be undone, are you sure you want to delete this Form?</p>
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-success" data-bs-dismiss="modal">No, Go Back</button>
-                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteJournal()}>Yes, Delete It</button>
+                    <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteForm()}>Yes, Delete It</button>
                 </div>
             </div>
         </div>
@@ -52,4 +52,4 @@ function DeleteJournal(props) {
 
 }
 
-export default DeleteJournal
+export default DeleteForm

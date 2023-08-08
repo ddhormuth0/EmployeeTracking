@@ -17,7 +17,7 @@ router.route("/")
     //we are only getting questions that belong to the selected form
     .get(async (req, res) => {
         //get all questions from the specified form
-        const formID = req.query.formID
+        const formID = req.query.form_id
         pool.getConnection((err, conn) =>{
             if(err) throw err
 

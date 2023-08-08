@@ -1,10 +1,18 @@
 import React from "react"
 import JournalsHome from "./JournalsHome"
 
-function OneEmployeesJournals(props){
+function OneEmployeesJournals(props) {
 
-    return(
-        <JournalsHome parent="oneEmp" id={props.id}/>
+    return (
+        <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+                <div className="modal-body">
+                    <JournalsHome parent="oneEmp" id={props.id} />
+                </div>
+            </div>
+        </div>
+
+
     )
 }
 

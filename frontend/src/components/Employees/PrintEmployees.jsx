@@ -32,13 +32,7 @@ function PrintEmployees() {
         <div>
             {/* if the employee overlay is toggled then display it */}
             <div className="modal fade p-0" id="journalsModal" tabIndex="-1" aria-hidden="true">
-                <div className="modal-dialog modal-xl">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <OneEmployeesJournals id={clickedEmployee} />
-                        </div>
-                    </div>
-                </div>
+                <OneEmployeesJournals id={clickedEmployee} />
             </div>
             <div className="my-5 row">
                 <div className="col-lg-3"></div>
