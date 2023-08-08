@@ -38,9 +38,9 @@ router.route("/")
     //the first parameter is the token verification and authorization, if they dont return true then we dont get into the post
     .post([authJWT.verifyToken, authJWT.isAdmin],(req, res) => {
         //get the information that we want to add
-        const questionID = req.body.questionID
-        const formID = req.body.formID
-        const questionPhrase = req.body.questionPhrase
+        const question_id = req.body.question_id
+        const form_id = req.body.form_id
+        const question_phrase = req.body.question_phrase
 
         //connect to the database
         pool.getConnection((err, conn) => {
@@ -49,7 +49,7 @@ router.route("/")
             //set up the string, the ? ? represent variables that we will input later
             const insertQry = "INSERT INTO questions (question_id, form_id, question_phrase) VALUES (?, ?, ?)"
             //run the insert command
-            conn.query(insertQry, [questionID, formID, questionPhrase], (error, result) => {
+            conn.query(insertQry, [question_id, form_id, question_phrase], (error, result) => {
                 conn.release()
                 if (error) throw error
                 res.json(result)
@@ -62,14 +62,14 @@ router.route("/")
     //uses body requests, it does not say this is bad but it could be looked into
     .delete([authJWT.verifyToken, authJWT.isAdmin],(req, res) => {
         //get the information that we want to delete
-        const formID = req.body.formID
-        const questionID = req.body.questionID
+        const form_id = req.body.form_id
+        const question_id = req.body.question_id
         //connect to the database
         pool.getConnection((err, conn) => {
             if (err) throw err
             const qry = "DELETE FROM forms WHERE form_id=? AND question_id = ?"
             //run the delete command
-            conn.query(qry, [formID, questionID], (error, result) => {
+            conn.query(qry, [form_id, question_id], (error, result) => {
                 conn.release()
                 if (error) throw error
                 res.json(result)

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import AddForm from "./AddForm"
 import DeleteForm from "./DeleteForm"
+import PrintForm from "./PrintForm"
 
 function Forms() {
     //our states to get the forms data
@@ -8,6 +9,9 @@ function Forms() {
     //the state tracker checks if items were removed or deleted, this will refresh the page
     const [stateTracker, setStateTracker] = useState(false)
     const [formToDelete, setFormToDelete] = useState(0)
+    const [formToSelect, setFormToSelect] = useState(0)
+    const [selectedFormData, setSelectedFormData] = useState([])
+    const [formQuestions, setFormQuestions] = useState([])
 
 
     //the information we are getting from the backend
@@ -20,7 +24,24 @@ function Forms() {
             .then(data => { setFormData(data) })
             //catches errors
             .catch(err => console.log(err))
-    }, [stateTracker])
+            console.log(formToSelect)
+        fetch(process.env.REACT_APP_PROXY + "/forms?form_id=" + formToSelect)
+            //turns data into json
+            .then(res => res.json())
+            //put the data into the journals state
+            .then(data => { setSelectedFormData(data) 
+            console.log(data)
+            })
+            //catches errors
+            .catch(err => console.log(err))
+        fetch(process.env.REACT_APP_PROXY + "/questions?form_id=" + formToSelect)
+            //turns data into json
+            .then(res => res.json())
+            //put the data into the journals state
+            .then(data => { setFormQuestions(data) })
+            //catches errors
+            .catch(err => console.log(err))
+    }, [formToSelect, stateTracker])
     // [] at the end determines when to make the request, [ ] by itself only makes the request once
 
     //return the html
@@ -30,18 +51,28 @@ function Forms() {
             <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <DeleteForm state={stateTracker} changeState={setStateTracker} form_id={formToDelete} />
             </div>
+            <div className="modal fade" id="addFormModal" tabIndex="-1" aria-hidden="true">
+                {stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
+                {!stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
+            </div>
+
+            <div className="modal fade" id="formModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <PrintForm changeState={setStateTracker} isScoring={false} form={selectedFormData} questions={formQuestions} />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div className="mt-5 row">
                 {/* header row */}
                 <div className="col-lg-3"></div>
 
                 <div className="col-12 col-lg-6">
                     <div className="d-grid">
-                        <button className="btn btn-primary" type="button" aria-expanded="false" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Form</button>
-                        <div className="modal" id="addEmployeeModal" tabIndex="-1" aria-hidden="true">
-                            {stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
-                            {!stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
-                        </div>
-
+                        <button className="btn btn-primary" type="button" aria-expanded="false" data-bs-toggle="modal" data-bs-target="#addFormModal">Add Form</button>
                     </div>
                 </div>
 
@@ -57,8 +88,8 @@ function Forms() {
                                 <h5 className="ms-0 mb-0 d-inline-block">{form.fName == null ? "Unknown" : form.fName.substring(0, 1) + ". " + form.lName}</h5>
                                 <button data-bs-toggle="modal" data-bs-target="#deleteModal" type="button" className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" aria-label="Close" onClick={() => setFormToDelete(form.form_id)}></button>
                             </div>
-                            <div className="card-body">
-                                <h2 className="text-center">{form.title}</h2>
+                            <div className="card-body d-grid p-1">
+                                <button className="btn btn-secondary " aria-expanded="false" data-bs-toggle="modal" data-bs-target="#formModal" onClick={() => { setFormToSelect(form.form_id); }}><h2 className="text-center">{form.title}</h2></button>
                             </div>
 
                         </div>

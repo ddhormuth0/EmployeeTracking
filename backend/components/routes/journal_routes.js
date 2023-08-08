@@ -88,10 +88,10 @@ router.route("/")
 
     .post([authJWT.verifyToken, authJWT.isAdmin],async (req, res) => {
         //information sent to here
-        const givingID = req.body.givingID
-        const receivingID = req.body.receivingID
-        const journalDate = req.body.journalDate
-        const journalType = req.body.journalTypeInfo
+        const giving_id = req.body.giving_id
+        const receiving_id = req.body.receiving_id
+        const j_date = req.body.j_date
+        const good_bad_info = req.body.good_bad_info
         const content = req.body.content
 
         pool.getConnection((err, conn) => {
@@ -100,7 +100,7 @@ router.route("/")
             const newQry = "INSERT INTO employee_tracker.journals (good_bad_info, j_date, receiving_id, giving_id, content) VALUES (?, ?, ?, ?, ?)"
 
             //run the second query to insert
-            conn.query(newQry, [journalType, journalDate, receivingID, givingID, content], function (error, result, fields) {
+            conn.query(newQry, [good_bad_info, j_date, receiving_id, giving_id, content], function (error, result, fields) {
                 conn.release()
                 if (error) throw error
                 res.json(result)
@@ -118,7 +118,7 @@ router.route("/")
         pool.getConnection((err, conn) => {
             if (err) throw err
             //IS BAD FOR PEOPLE WITH THE SAME NAME, DELETES THEM BOTH
-            //set up the string, the ? ? represent variables that we will imput later
+            //set up the string, the ? ? represent variables that we will input later
             const qry = "DELETE FROM employee_tracker.journals WHERE (journal_id=?)"
             //run the insert command
             conn.query(qry, [journal_id], (error, result) => {

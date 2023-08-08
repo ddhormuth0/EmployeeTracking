@@ -17,7 +17,8 @@ router.route("/")
 
     .get(async (req, res) => {
         //get all forms
-        pool.getConnection((err, conn) =>{
+        if(req.query.form_id == null){
+            pool.getConnection((err, conn) =>{
             if(err) throw err
 
             const qry = `SELECT fName, lName, form_id, title
@@ -33,6 +34,27 @@ router.route("/")
                 res.json(result);
             })
         })
+        //if we are searching for a single id
+        } else{
+            pool.getConnection((err, conn) =>{
+            if(err) throw err
+
+            const qry = `SELECT fName, lName, form_id, title, scale
+            FROM forms
+            LEFT JOIN employees ON forms.employee_creator_id = employees.employee_id
+            WHERE form_id=?`
+
+            conn.query(qry,[req.query.form_id],(error, result)=>{
+                //end connection
+                conn.release()
+                //if there is an error throw it
+                if(error) throw err;
+                //send the result
+                res.json(result);
+            })
+        })
+        }
+        
 
     })
     //add a new employee

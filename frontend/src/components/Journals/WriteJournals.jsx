@@ -35,11 +35,11 @@ function WriteJournals(props) {
         else {
             //object we are going to send/post
             const journal = {
-                receivingID: employeeID,
-                journalTypeInfo: journalType,
-                journalDate: newJournalDate,
+                receiving_id: employeeID,
+                good_bad_info: journalType,
+                j_date: newJournalDate,
                 content: info,
-                givingID: employeeIDGiving
+                giving_id: employeeIDGiving
             }
 
             fetch(process.env.REACT_APP_PROXY + "/journals", {
@@ -51,7 +51,7 @@ function WriteJournals(props) {
                 body: JSON.stringify(journal)
                 //if props state is true then we set it to false, and vice versa, this will reload the journals
             }).then((response) => { 
-                props.changeState(props.state ? false : true) 
+                props.changeState(!props.state) 
                 if (response.status === 401 || response.status === 403) {
                     alert("Requires Admin Account")
 
