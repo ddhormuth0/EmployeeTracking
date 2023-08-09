@@ -7,20 +7,13 @@ function DeleteForm(props) {
 
         //stops page from refreshing after submit
         // evt.preventDefault()
-        //object we are going to send/post
-        const form = {
-            form_id: props.form_id
-        }
 
-        //sends the post request
-        fetch(process.env.REACT_APP_PROXY + "/forms", {
+        //sends the delete request
+        fetch(process.env.REACT_APP_PROXY + "/forms?form_id=" + props.form_id, {
             //type of method we are doing
             method: "DELETE",
             //type of information we are sending
-
             headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
-            //data we are sending
-            body: JSON.stringify(form)
         })
             //if props state is true then we set it to false, and vice versa, this will reload the journals
             .then((response) => {

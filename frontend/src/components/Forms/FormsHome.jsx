@@ -3,7 +3,7 @@ import AddForm from "./AddForm"
 import DeleteForm from "./DeleteForm"
 import PrintForm from "./PrintForm"
 
-function Forms() {
+function Forms(props) {
     //our states to get the forms data
     const [formData, setFormData] = useState([])
     //the state tracker checks if items were removed or deleted, this will refresh the page
@@ -54,11 +54,11 @@ function Forms() {
                 {!stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
             </div>
 
-            <div className="modal fade" id="formModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade modal-lg" id="formModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
-                            <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={false} form={selectedFormData} questions={formQuestions} />
+                            <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={props.isScoring} form={selectedFormData} questions={formQuestions} />
                         </div>
 
                     </div>

@@ -20,7 +20,8 @@ function App(){
                     <Route path="employees" element={<Employees />}/>
                     <Route path="journals" element={<Journals />}/>
                     <Route path="sign-in" element={<Login checkAccount={checkAccount} setCheckAccount={setCheckAccount}/>}/>
-                    <Route path="forms" element={<Forms />}/>
+                    <Route path="forms" element={<Forms isScoring={false} />}/>
+                    <Route path="scoring" element={<Forms isScoring={true} />}/>
                 </Route>
             </Routes>
         </BrowserRouter>

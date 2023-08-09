@@ -54,13 +54,15 @@ function PrintForm(props) {
                     <div key={form.form_id}>
                         
                         <h1>{form.title}</h1>
-                        <PrintQuestions changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
+                        <PrintQuestions scale = {form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
                         {props.isScoring ?
                             (
-                                <div></div>
+                                <div>
+
+                                </div>
                             ) : (
                                 <div>
-                                    <input type="text" value={questionPhrase} onChange={(e) => setQuestionPhrase(e.target.value)} />
+                                    <input type="text" className="me-3" value={questionPhrase} onChange={(e) => setQuestionPhrase(e.target.value)} />
                                     <button type="button" className="btn btn-secondary" onClick={submitQuestion} >Add Question</button>
                                 </div>
                             )}

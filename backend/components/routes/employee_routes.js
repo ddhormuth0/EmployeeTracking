@@ -152,7 +152,7 @@ router.route("/")
     //uses body requests, it does not say this is bad but it could be looked into
     .delete([authJWT.verifyToken, authJWT.isAdmin],(req, res) => {
         //get the information that we want to add
-        const id = req.body.id
+        const id = req.query.employee_id
         //connect to the database
         pool.getConnection((err, conn) => {
             if (err) throw err

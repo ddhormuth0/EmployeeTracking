@@ -112,7 +112,7 @@ router.route("/")
     //uses body requests, it does not say this is bad but it could be looked into
     .delete([authJWT.verifyToken, authJWT.isAdmin],(req, res) => {
         //information the server is receiving
-        const journal_id = req.body.journal_id
+        const journal_id = req.query.journal_id
 
         //connect to the database
         pool.getConnection((err, conn) => {

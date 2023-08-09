@@ -10,19 +10,14 @@ function DeleteEmployee(props) {
     function handleClick() {
         //stops page from refreshing after submit
         // evt.preventDefault()
-        //object we are going to send/post
-        const employee = {
-            id: employee_id
-        }
 
-        //sends the post request
-        fetch(process.env.REACT_APP_PROXY + "/employees", {
+
+        //sends the Delete request
+        fetch(process.env.REACT_APP_PROXY + "/employees?employee_id=" + employee_id, {
             //type of method we are doing
             method: "DELETE",
             //type of information we are sending
             headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
-            //data we are sending
-            body: JSON.stringify(employee)
         }).then((response) => {
             props.changeState(props.state ? false : true)
             if(response.status === 401 || response.status === 403){
