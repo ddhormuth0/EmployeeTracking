@@ -24,13 +24,11 @@ function Forms() {
             .then(data => { setFormData(data) })
             //catches errors
             .catch(err => console.log(err))
-            console.log(formToSelect)
         fetch(process.env.REACT_APP_PROXY + "/forms?form_id=" + formToSelect)
             //turns data into json
             .then(res => res.json())
             //put the data into the journals state
             .then(data => { setSelectedFormData(data) 
-            console.log(data)
             })
             //catches errors
             .catch(err => console.log(err))
@@ -60,7 +58,7 @@ function Forms() {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
-                            <PrintForm changeState={setStateTracker} isScoring={false} form={selectedFormData} questions={formQuestions} />
+                            <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={false} form={selectedFormData} questions={formQuestions} />
                         </div>
 
                     </div>

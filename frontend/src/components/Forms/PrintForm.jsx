@@ -17,7 +17,8 @@ function PrintForm(props) {
                 form_id: props.form[0].form_id,
                 question_phrase: questionPhrase
             }
-
+            //reset the question phase back to nothing
+            setQuestionPhrase("")
             fetch(process.env.REACT_APP_PROXY + "/questions", {
                 //type of method we are doing
                 method: "POST",
@@ -53,13 +54,13 @@ function PrintForm(props) {
                     <div key={form.form_id}>
                         
                         <h1>{form.title}</h1>
-                        <PrintQuestions isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} />
+                        <PrintQuestions changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
                         {props.isScoring ?
                             (
                                 <div></div>
                             ) : (
                                 <div>
-                                    <input type="text" onChange={(e) => setQuestionPhrase(e.target.value)} />
+                                    <input type="text" value={questionPhrase} onChange={(e) => setQuestionPhrase(e.target.value)} />
                                     <button type="button" className="btn btn-secondary" onClick={submitQuestion} >Add Question</button>
                                 </div>
                             )}
