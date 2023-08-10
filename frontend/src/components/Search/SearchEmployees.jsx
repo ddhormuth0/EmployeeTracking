@@ -1,6 +1,7 @@
 // must be called like this outside in parent
+//if you have two in the same page then you must have two separate show infos
 // const [showInfo, setShowInfo] = useState(false)
-// <SearchEmployees setShow={setShowInfo} show={showInfo} onClickOutside={() => {setShowInfo(false)} setID={setEmployee_id}}/>
+// <SearchEmployees setID={setEmployeeID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfo(false) }} />
 
 
 import React, { useState, useEffect, useRef } from "react"

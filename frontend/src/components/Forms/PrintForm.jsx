@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react"
 import PrintQuestions from "./PrintQuestions"
 import authHeader from "../services/auth_header"
+import SearchEmployees from "../Search/SearchEmployees"
 
 function PrintForm(props) {
     const [questionPhrase, setQuestionPhrase] = useState("")
     const [isReady, setIsReady] = useState(false)
     const [questionNumber, setQuestionNumber] = useState(0)
+    const [giverID, setGiverID] = useState()
+    const [receiverID, setReceiverID] = useState()
+    const [showInfo, setShowInfo] = useState(false)
+    const [showInfoGiving, setShowInfoGiving] = useState(false)
+
 
     function submitQuestion() {
         if (!isReady) {
@@ -58,7 +64,10 @@ function PrintForm(props) {
                         {props.isScoring ?
                             (
                                 <div>
-
+                                    <h4>Employee Giving:</h4>
+                                    <SearchEmployees setID={setGiverID} setShow={setShowInfoGiving} show={showInfoGiving} onClickOutside={() => { setShowInfoGiving(false) }} />
+                                    <h4>Employee Receiving:</h4>
+                                    <SearchEmployees setID={setReceiverID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfo(false) }} />
                                 </div>
                             ) : (
                                 <div>

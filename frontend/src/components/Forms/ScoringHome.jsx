@@ -1,5 +1,5 @@
 import React from "react"
-import FormHome from "../Forms/FormsHome"
+import FormHome from "./FormsHome"
 
 
 function Forms() {
