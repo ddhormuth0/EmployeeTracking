@@ -8,8 +8,8 @@ function Forms(props) {
     const [formData, setFormData] = useState([])
     //the state tracker checks if items were removed or deleted, this will refresh the page
     const [stateTracker, setStateTracker] = useState(false)
-    const [formToDelete, setFormToDelete] = useState(0)
-    const [formToSelect, setFormToSelect] = useState(0)
+    const [formToDelete, setFormToDelete] = useState("")
+    const [formToSelect, setFormToSelect] = useState("")
     const [selectedFormData, setSelectedFormData] = useState([])
     const [formQuestions, setFormQuestions] = useState([])
 

@@ -55,21 +55,37 @@ router.route("/")
     //add a new employee
     //the first parameter is the token verification and authorization, if they dont return true then we dont get into the post
     .post([authJWT.verifyToken, authJWT.isAdmin], (req, res) => {
-
+        console.log("POSTING ANSWER_INFO")
         //connect to the database
+        //THIS NEEDS TO BE EDITED WHEN SWITCHED TO POSTGRESQL
         pool.getConnection((err, conn) => {
             if (err) throw err
-
-            //set up the string, the ? ? represent variables that we will input later
-            const insertQry = "INSERT INTO employee_tracker.score_info (form_id, giving_id, receiving_id, date) VALUES (?, ?, ?, ?);"
-            //run the insert command
-            conn.query(insertQry, [req.body.form_id, req.body.giving_id, req.body.receiving_id, req.body.date], (error, result) => {
-                conn.release()
-                if (error) throw error
-                res.json(result)
+            //makes this a promise so it is done first
+            function insertInfo() {
+                return new Promise(function (resolve, reject) {
+                    const insertQry = "INSERT INTO employee_tracker.score_info (form_id, giving_id, receiving_id, date) VALUES (?, ?, ?, ?);"
+                    //run the insert
+                    conn.query(insertQry, [req.body.form_id, req.body.giving_id, req.body.receiving_id, req.body.date], (error, result) => {
+                        //normally wed close the connection here but we need another one
+                        if (error) {
+                            conn.release()
+                            reject(error)
+                        }
+                    })
+                    resolve();
+                })
+            }
+            //insert then get ID
+            insertInfo().then(() => {
+                const getLastId = "SELECT LAST_INSERT_ID() AS ID"
+                conn.query(getLastId, (error, result) => {
+                    conn.release()
+                    if (error) throw error
+                    console.log(result)
+                    res.json(result)
+                })
             })
         })
-
 
     })
     //uses body requests, it does not say this is bad but it could be looked into

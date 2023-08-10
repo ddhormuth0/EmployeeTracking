@@ -3,10 +3,48 @@ import authHeader from "../services/auth_header"
 
 function PrintQuestions(props) {
     const [scale, setScale] = useState([])
+    const [scores, setScores] = useState([])
+    const [comments, setComments] = useState([])
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        //send all of the data to the parent from here
+        let score_info = []
+        //loop through the scores and comments and make an array of the objects
+        for (let i = 0; i < props.questions.length; i++) {
+            let info = {
+                //its i plus one because each element in the array is behind by one
+                question_id: i + 1,
+                score: scores[i],
+                //if the comment is null then give it the empty string else return the comment
+                comment: comments[i] == null ? "" : comments[i]
+            }
+            score_info.push(info)
+        }
+        props.submitScore(score_info)
+
+
+    }
+
+
+
+    function handleChange(index, value, isScore) {
+        //if a score is changed set the scores, else set the comments
+        if (isScore) {
+            let arr = scores;
+            arr[index] = value;
+            setScores(arr)
+        } else {
+            let arr = comments;
+            arr[index] = value;
+            setComments(arr)
+        }
+    }
 
     useEffect(() => {
         props.setQuestionNumber(props.questions.length + 1)
         if (props.isScoring) setScale(printScores())
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     function deleteQuestion(question_id) {
@@ -36,32 +74,40 @@ function PrintQuestions(props) {
 
     return (
         <div>
-            {props.questions.map(question => {
-                return (
-                    <div key={question.question_id}>
-                        <h3 className="d-inline-block">{question.question_id + ". " + question.question_phrase}</h3>
-
-                        {props.isScoring ? (
+            <form onSubmit={(e) => { handleSubmit(e) }}>
+                {props.questions.map(question => {
+                    return (
+                        <div key={question.question_id}>
+                            <h3 className="d-inline-block">{question.question_id + ". " + question.question_phrase}</h3>
+                            {!props.isScoring && <button className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" onClick={() => deleteQuestion(question.question_id)}></button>}
                             <div>
-                                {scale.map(number => {
-                                    return (
-                                        <div key={number}>
-                                            <label className="form-check-label me-2" >{number + ". "}</label>
-                                            <input className="form-check-input" type="radio" name={question.question_id} value={number} /><br/>
+                                {props.isScoring &&
+                                    <div className="row">
+                                        <div className="col-1">
+                                            {scale.map(number => {
+                                                return (
+                                                    <div key={number}>
+                                                        <div>
+                                                            <label className="form-check-label me-2" >{number + ". "}</label>
+                                                            {/* subtract one from question id so it is at the beginning of the array */}
+                                                            <input className="form-check-input" type="radio" name={"question" + question.question_id} value={number} required onChange={() => handleChange(question.question_id - 1, number, true)} /><br />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })}
                                         </div>
-
-                                    )
-                                })}
+                                        <div className="col d-flex">
+                                            {/* subtract one from question id so it is at the beginning of the array */}
+                                            <textarea type="text" className="flex-fill" name={"comment" + question.question_id} onChange={(e) => handleChange(question.question_id - 1, e.target.value, false)} />
+                                        </div>
+                                    </div>
+                                }
                             </div>
-                        ) : (
-                            <button className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" onClick={() => deleteQuestion(question.question_id)}></button>
-                        )
-
-                        }
-                    </div>
-                )
-            })}
-
+                        </div>
+                    )
+                })}
+                <button type="submit" className="btn btn-secondary mt-5 me-2" style={{ position: "relative", float: "right" }}>Submit</button>
+            </form>
         </div>
     )
 }

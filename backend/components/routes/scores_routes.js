@@ -40,14 +40,22 @@ router.route("/")
     //the first parameter is the token verification and authorization, if they dont return true then we dont get into the post
     .post([authJWT.verifyToken, authJWT.isAdmin], (req, res) => {
 
+        let scores = req.body.scores
+        let score_info_id = req.body.score_info_id
+        let valueString = ""
+        //loup through the scores
+        scores.forEach(score => {
+            valueString += ("(" + "'" + score_info_id + "'" + ", " + "'" + score.question_id + "'" + ", " + "'" + score.score + "'" + ", " + "'" + score.comment + "'" + "),")
+        });
+        valueString = valueString.substring(0, valueString.length - 1);
         //connect to the database
         pool.getConnection((err, conn) => {
             if (err) throw err
 
             //set up the string, the ? ? represent variables that we will input later
-            const insertQry = "INSERT INTO scores (score_info_id, question_id, score, comments) VALUES (?, ?, ?, ?);"
+            const insertQry = "INSERT INTO scores (score_info_id, question_id, score, comments) VALUES" + valueString + ";"
             //run the insert command
-            conn.query(insertQry, [req.body.score_info_id, req.body.question_id, req.body.score, req.body.comments], (error, result) => {
+            conn.query(insertQry, valueString, (error, result) => {
                 conn.release()
                 if (error) throw error
                 res.json(result)
