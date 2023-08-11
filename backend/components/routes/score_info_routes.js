@@ -17,37 +17,63 @@ router.use(function (req, res, next) {
 router.route("/")
     //get info based on score_info_id or given form_id and receiving id
     .get(async (req, res) => {
-        //if score_info_id exists then find it
-        if (req.query.score_info_id != null) {
-            const qry = `SELECT * FROM score_info WHERE score_info_id=?`
+        let qry = `SELECT score_info.score_info_id, score_info.form_id, employees.fName, employees.lName, score_info.s_date, forms.title, giver.fName AS g_fName, giver.lName AS g_lName, forms.scale
+                FROM score_info
+                JOIN employees ON employees.employee_id = score_info.receiving_id
+                LEFT JOIN employees AS giver ON giver.employee_id = score_info.giving_id
+                JOIN forms ON forms.form_id = score_info.form_id`
+        let orderBy = " ORDER BY s_date DESC, score_info_id"
+                        //if score_info_id exists then find it
+        //DON'T THINK THIS IS NEEDED
+        // if (req.query.score_info_id != null) {
+        //     const qry = `SELECT employees.fName, employees.lName, score_info.s_date, forms.title, giver.fName AS g_fName, giver.lName AS g_lName
+        //             FROM score_info
+        //             JOIN employees ON employees.employee_id = score_info.receiving_id
+        //             JOIN employees AS giver ON employees.employee_id = score_info.giving_id
+        //             JOIN forms ON forms.form_id = score_info.form_id
+        //             WHERE score_info.score_info_id=?`
 
+        //     pool.getConnection((err, conn) => {
+        //         if (err) throw err //not connected
+        //         //query the database
+        //         //if you use qrt, [endQry] it does not work because it adds ''
+        //         conn.query(qry, [req.query.score_info_id], function (error, result, fields) {
+        //             //send the result in a json
+        //             conn.release()
+        //             if (error) throw error
+        //             res.json(result)
+        //         })
+        //     })
+
+        /* } else */
+        if (req.query.form_id != null && req.query.receiving_id != null) {
+            //isnt being used yet
+            let qryWhere = " WHERE form_id=? AND receiving_id=?"
             pool.getConnection((err, conn) => {
                 if (err) throw err //not connected
                 //query the database
                 //if you use qrt, [endQry] it does not work because it adds ''
-                conn.query(qry, [req.query.score_info_id], function (error, result, fields) {
+                conn.query(qry + qryWhere + orderBy, [req.query.form_id, req.query.receiving_id], function (error, result, fields) {
                     //send the result in a json
                     conn.release()
                     if (error) throw error
                     res.json(result)
                 })
             })
-        } else if (req.query.form_id != null && req.query.receiving_id != null) {
-            const qry = `SELECT * FROM score_info WHERE form_id=? AND receiving_id=?`
-
-            pool.getConnection((err, conn) => {
-                if (err) throw err //not connected
-                //query the database
-                //if you use qrt, [endQry] it does not work because it adds ''
-                conn.query(qry,[req.query.form_id, req.query.receiving_id], function (error, result, fields) {
-                    //send the result in a json
-                    conn.release()
-                    if (error) throw error
-                    res.json(result)
-                })
-            })
+            //get all
         } else {
-            console.error("Not enough information sent with get request")
+
+            pool.getConnection((err, conn) => {
+                if (err) throw err //not connected
+                //query the database
+                //if you use qrt, [endQry] it does not work because it adds ''
+                conn.query(qry + orderBy, function (error, result, fields) {
+                    //send the result in a json
+                    conn.release()
+                    if (error) throw error
+                    res.json(result)
+                })
+            })
         }
 
 
@@ -55,7 +81,6 @@ router.route("/")
     //add a new employee
     //the first parameter is the token verification and authorization, if they dont return true then we dont get into the post
     .post([authJWT.verifyToken, authJWT.isAdmin], (req, res) => {
-        console.log("POSTING ANSWER_INFO")
         //connect to the database
         //THIS NEEDS TO BE EDITED WHEN SWITCHED TO POSTGRESQL
         pool.getConnection((err, conn) => {
@@ -63,7 +88,7 @@ router.route("/")
             //makes this a promise so it is done first
             function insertInfo() {
                 return new Promise(function (resolve, reject) {
-                    const insertQry = "INSERT INTO employee_tracker.score_info (form_id, giving_id, receiving_id, date) VALUES (?, ?, ?, ?);"
+                    const insertQry = "INSERT INTO employee_tracker.score_info (form_id, giving_id, receiving_id, s_date) VALUES (?, ?, ?, ?);"
                     //run the insert
                     conn.query(insertQry, [req.body.form_id, req.body.giving_id, req.body.receiving_id, req.body.date], (error, result) => {
                         //normally wed close the connection here but we need another one

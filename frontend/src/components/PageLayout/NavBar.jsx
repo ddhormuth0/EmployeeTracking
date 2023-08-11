@@ -34,7 +34,10 @@ function NavBar(props) {
                         <Link to="/forms" className="nav-link">Forms</Link>
                     </li>
                     <li className="nav-item px-3">
-                        <Link to="/Scoring" className="nav-link">Scoring</Link>
+                        <Link to="/scoring" className="nav-link">Scoring</Link>
+                    </li>
+                    <li className="nav-item px-3">
+                        <Link to="/scored-forms" className="nav-link">Scored Forms</Link>
                     </li>
                     {!isLoggedIn &&
 

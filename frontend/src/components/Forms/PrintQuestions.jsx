@@ -45,7 +45,7 @@ function PrintQuestions(props) {
         props.setQuestionNumber(props.questions.length + 1)
         if (props.isScoring) setScale(printScores())
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [props])
 
     function deleteQuestion(question_id) {
 
@@ -79,8 +79,9 @@ function PrintQuestions(props) {
                     return (
                         <div key={question.question_id}>
                             <h3 className="d-inline-block">{question.question_id + ". " + question.question_phrase}</h3>
-                            {!props.isScoring && <button className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" onClick={() => deleteQuestion(question.question_id)}></button>}
+                            {!props.isScoring && <button type="button" className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" onClick={() => deleteQuestion(question.question_id)}></button>}
                             <div>
+                                {/* if we are scoring print this */}
                                 {props.isScoring &&
                                     <div className="row">
                                         <div className="col-1">
@@ -102,11 +103,18 @@ function PrintQuestions(props) {
                                         </div>
                                     </div>
                                 }
+                                {/* if we are viewing the score do this */}
+                                {props.isViewingScore &&
+                                <div>
+                                    <h5>{"Score: " + props.selectedScores[question.question_id].score}</h5>
+                                    <p>{props.selectedScores[question.question_id].comment}</p>
+                                </div>
+                                }
                             </div>
                         </div>
                     )
                 })}
-                {props.isScoring && <button type="submit" className="btn btn-secondary mt-5 me-2" style={{ position: "relative", float: "right" }} data-bs-dismiss={props.dismiss}>Submit</button>}
+                {props.isScoring && !props.isViewingScore && <button type="submit" className="btn btn-secondary mt-5 me-2" style={{ position: "relative", float: "right" }} data-bs-dismiss={props.dismiss}>Submit</button>}
             </form>
         </div>
     )

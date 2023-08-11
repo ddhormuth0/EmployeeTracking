@@ -21,7 +21,7 @@ router.route("/")
         pool.getConnection((err, conn) => {
             if (err) throw err
 
-            const qry = "SELECT question_id, question_phrase FROM questions WHERE form_id=?"
+            const qry = "SELECT question_id, question_phrase FROM questions WHERE form_id=? ORDER BY question_id"
 
             conn.query(qry, [formID], (error, result) => {
                 //end connection

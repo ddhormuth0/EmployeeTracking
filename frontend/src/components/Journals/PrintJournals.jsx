@@ -18,7 +18,7 @@ function PrintJournals(props) {
             }
             {props.journalsToPrint.map((journal) => {
                 //changes the format of the date
-                const journalDate = new Date(journal.j_date.substring(0, 4), (parseInt(journal.j_date.substring(5, 7))-1).toString(), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" });
+                const journalDate = new Date(journal.j_date.substring(0, 4), (parseInt(journal.j_date.substring(5, 7))-1).toString(), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" })
 
                 return (
                     <div key={journal.journal_id} className="row px-4 my-5 position-relative">
@@ -46,7 +46,7 @@ function PrintJournals(props) {
                             </div>
                         </div>
                     </div>
-                );
+                )
             })}
         </div>
     );

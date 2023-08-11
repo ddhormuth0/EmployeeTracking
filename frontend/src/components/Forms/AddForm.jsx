@@ -49,7 +49,6 @@ function AddForm(props) {
                 setEmployee_id("")
                 setTitle("")
                 setScale("")
-                console.log(response)
                 if (response.status === 401 || response.status === 403) {
                     alert("Requires Admin Account")
                 }

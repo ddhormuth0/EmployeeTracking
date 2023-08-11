@@ -4,16 +4,20 @@ import authHeader from "../services/auth_header"
 import SearchEmployees from "../Search/SearchEmployees"
 
 function PrintForm(props) {
+    //used for adding new questions 
     const [questionPhrase, setQuestionPhrase] = useState("")
     const [questionIsReady, setQuestionIsReady] = useState(false)
     const [questionNumber, setQuestionNumber] = useState(0)
+    //used for creating a score
     const [giverID, setGiverID] = useState("")
     const [receiverID, setReceiverID] = useState("")
-    const [showInfo, setShowInfo] = useState(false)
-    const [showInfoGiving, setShowInfoGiving] = useState(false)
     const [scoreReady, setScoreReady] = useState(false)
     const [date, setDate] = useState("")
+    //sets a modal to be
     const [dismiss, setDismiss] = useState("")
+    //also used for creating a score, but more specifically for searching employees
+    const [showInfo, setShowInfo] = useState(false)
+    const [showInfoGiving, setShowInfoGiving] = useState(false)
 
     function submitScore(scoresAndComments) {
         if (scoreReady) {
@@ -47,8 +51,6 @@ function PrintForm(props) {
                     score_info_id: data[0].ID,
                     scores: scoresAndComments
                 }
-                console.log(scoresAsObject);
-                console.log(scoresAndComments)
             })
                 .catch(err => console.log(err))
                 .then(() => fetch(process.env.REACT_APP_PROXY + "/scores", {
