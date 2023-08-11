@@ -71,7 +71,7 @@ function AddForm(props) {
         <div className="modal-dialog">
             <div className="modal-content">
                 <div className="modal-header">
-                    <h1 className="modal-title fs-5">Add Employee</h1>
+                    <h1 className="modal-title fs-5">Add Form</h1>
                 </div>
                 <div className="modal-body">
                     <div className="mb-3">

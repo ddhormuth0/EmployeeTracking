@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 
 function PrintScoreInfo(props) {
     useEffect(() => {
-        console.log(props)
+        
     }, [props])
 
     return (
