@@ -106,7 +106,7 @@ function PrintQuestions(props) {
                         </div>
                     )
                 })}
-                <button type="submit" className="btn btn-secondary mt-5 me-2" style={{ position: "relative", float: "right" }}>Submit</button>
+                {props.isScoring && <button type="submit" className="btn btn-secondary mt-5 me-2" style={{ position: "relative", float: "right" }} data-bs-dismiss={props.dismiss}>Submit</button>}
             </form>
         </div>
     )

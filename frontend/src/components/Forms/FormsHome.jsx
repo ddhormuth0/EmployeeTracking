@@ -78,7 +78,8 @@ function Forms(props) {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-body">
-                            <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={props.isScoring} form={selectedFormData} questions={formQuestions} />
+                            {stateTracker && <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={props.isScoring} form={selectedFormData} questions={formQuestions} />}
+                            {!stateTracker && <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={props.isScoring} form={selectedFormData} questions={formQuestions} />}
                         </div>
 
                     </div>

@@ -13,6 +13,7 @@ function PrintForm(props) {
     const [showInfoGiving, setShowInfoGiving] = useState(false)
     const [scoreReady, setScoreReady] = useState(false)
     const [date, setDate] = useState("")
+    const [dismiss, setDismiss] = useState("")
 
     function submitScore(scoresAndComments) {
         if (scoreReady) {
@@ -114,8 +115,10 @@ function PrintForm(props) {
 
         if (receiverID === "" || giverID === "" || date === "") {
             setScoreReady(false)
+            setDismiss("")
         } else {
             setScoreReady(true)
+            setDismiss("modal")
         }
     }, [giverID, questionPhrase, receiverID, date])
 
@@ -126,7 +129,7 @@ function PrintForm(props) {
                     <div key={form.form_id}>
 
                         <h1>{form.title}</h1>
-                        <PrintQuestions submitScore={submitScore} scale={form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
+                        <PrintQuestions dismiss={dismiss} submitScore={submitScore} scale={form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
                         {props.isScoring ?
                             (
                                 <div>
