@@ -10,7 +10,7 @@ function Forms(props) {
     const [stateTracker, setStateTracker] = useState(false)
     const [formToDelete, setFormToDelete] = useState("")
     const [formToSelect, setFormToSelect] = useState("")
-    const [selectedFormData, setSelectedFormData] = useState([])
+    const [selectedFormData, setSelectedFormData] = useState()
     const [formQuestions, setFormQuestions] = useState([])
 
 
@@ -29,7 +29,7 @@ function Forms(props) {
             .then(res => res.json())
             //put the data into the journals state
             .then(data => {
-                setSelectedFormData(data)
+                setSelectedFormData(data[0])
             })
             //catches errors
             .catch(err => console.log(err))

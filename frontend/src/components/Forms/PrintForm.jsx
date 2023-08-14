@@ -22,40 +22,21 @@ function PrintForm(props) {
     function submitScore(scoresAndComments) {
         if (scoreReady) {
             let score_info = {
-                form_id: props.form[0].form_id,
+                form_id: props.form.form_id,
                 giving_id: giverID,
                 receiving_id: receiverID,
                 date: date
             }
             let scoresAsObject
-
-            fetch(process.env.REACT_APP_PROXY + "/score-info", {
-                //type of method we are doing
-                method: "POST",
-                //type of information we are sending
-                headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
-                //data we are sending
-                body: JSON.stringify(score_info)
-                //if props state is true then we set it to false, and vice versa, this will reload the journals
-            }).then((res) => {
-
-                if (res.status === 401 || res.status === 403) {
-                    alert("Requires Admin Account")
-
-                } else {
-                    return res.json()
-                }
-                //get the data back and set the score_info_id
-            }).then(data => {
+            //if we are given the scores then we are editing and we do not need to send the post request for the score-info, only update the scores
+            if (props.givenScores != null) {
                 scoresAsObject = {
-                    score_info_id: data[0].ID,
+                    score_info_id: props.form.score_info_id,
                     scores: scoresAndComments
                 }
-            })
-                .catch(err => console.log(err))
-                .then(() => fetch(process.env.REACT_APP_PROXY + "/scores", {
+                fetch(process.env.REACT_APP_PROXY + "/scores", {
                     //type of method we are doing
-                    method: "POST",
+                    method: "PUT",
                     //type of information we are sending
                     headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
                     //data we are sending
@@ -63,12 +44,57 @@ function PrintForm(props) {
                     //if props state is true then we set it to false, and vice versa, this will reload the journals
                 }).then((response) => {
                     //change the state so it can update
-                    props.changeState(!props.state)
+                    if (props.changeState != null) props.changeState(!props.state)
                     if (response.status === 401 || response.status === 403) {
                         alert("Requires Admin Account")
 
                     }
-                }))
+                })
+                //else we will do the normal one and add it all for the first time
+            } else {
+                fetch(process.env.REACT_APP_PROXY + "/score-info", {
+                    //type of method we are doing
+                    method: "POST",
+                    //type of information we are sending
+                    headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
+                    //data we are sending
+                    body: JSON.stringify(score_info)
+                    //if props state is true then we set it to false, and vice versa, this will reload the journals
+                }).then((res) => {
+
+                    if (res.status === 401 || res.status === 403) {
+                        alert("Requires Admin Account")
+
+                    } else {
+                        return res.json()
+                    }
+                    //get the data back and set the score_info_id
+                }).then(data => {
+                    scoresAsObject = {
+                        score_info_id: data[0].ID,
+                        scores: scoresAndComments
+                    }
+                })
+                    .catch(err => console.log(err))
+                    .then(() => fetch(process.env.REACT_APP_PROXY + "/scores", {
+                        //type of method we are doing
+                        method: "POST",
+                        //type of information we are sending
+                        headers: { "Content-Type": "application/json", "x-access-token": authHeader() },
+                        //data we are sending
+                        body: JSON.stringify(scoresAsObject)
+                        //if props state is true then we set it to false, and vice versa, this will reload the journals
+                    }).then((response) => {
+                        //change the state so it can update
+                        if (props.changeState != null) props.changeState(!props.state)
+                        if (response.status === 401 || response.status === 403) {
+                            alert("Requires Admin Account")
+
+                        }
+                    }))
+            }
+
+
         } else {
             alert("Please enter employee names and date")
         }
@@ -82,7 +108,7 @@ function PrintForm(props) {
             //object we are going to send/post
             const question = {
                 question_id: questionNumber,
-                form_id: props.form[0].form_id,
+                form_id: props.form.form_id,
                 question_phrase: questionPhrase
             }
             //reset the question phase back to nothing
@@ -114,43 +140,45 @@ function PrintForm(props) {
         } else {
             setQuestionIsReady(true)
         }
-
-        if (receiverID === "" || giverID === "" || date === "") {
+        //check to see if input is given, if props.givenScores is null then they must be entered
+        if ((receiverID === "" || giverID === "" || date === "") && props.givenScores == null) {
             setScoreReady(false)
             setDismiss("")
         } else {
             setScoreReady(true)
             setDismiss("modal")
         }
-    }, [giverID, questionPhrase, receiverID, date])
+    }, [giverID, questionPhrase, receiverID, date, props])
 
     return (
         <div>
-            {props.form.map(form => {
-                return (
-                    <div key={form.form_id}>
+            {props.form != null &&
+                <div>
+                    <h1>{props.form.title}</h1>
+                    <PrintQuestions dismiss={dismiss} submitScore={submitScore} givenScores={props.givenScores} scale={props.form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={props.form.form_id} />
+                    {props.isScoring ?
+                        (
+                            <div>
+                                <h5>Employee Giving:</h5>
+                                {/* if we are given scores then the employee given and employee receiving are already set, so just print them from the form*/}
+                                {props.givenScores == null ? <SearchEmployees setID={setGiverID} setShow={setShowInfoGiving} show={showInfoGiving} onClickOutside={() => { setShowInfoGiving(false) }} /> :
+                                    <h4>{props.form.g_fName + " " + props.form.g_lName}</h4>
+                                }
+                                <h5>Employee Receiving:</h5>
+                                {props.givenScores == null ? <SearchEmployees setID={setReceiverID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfoGiving(false) }} /> :
+                                    <h4>{props.form.fName + " " + props.form.lName}</h4>}
+                                <h5>Date:</h5>
+                                {props.givenScores == null ? <input type="date" onChange={(e) => setDate(e.target.value)} /> :
+                                    <h4>{new Date(props.form.s_date.substring(0, 4), (parseInt(props.form.s_date.substring(5, 7)) - 1).toString(), props.form.s_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" })}</h4>}
+                            </div>
+                        ) : (
+                            <div>
+                                <input type="text" className="me-3" value={questionPhrase} onChange={(e) => setQuestionPhrase(e.target.value)} />
+                                <button type="button" className="btn btn-secondary" onClick={submitQuestion} >Add Question</button>
+                            </div>
+                        )}
+                </div>}
 
-                        <h1>{form.title}</h1>
-                        <PrintQuestions dismiss={dismiss} submitScore={submitScore} scale={form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={form.form_id} />
-                        {props.isScoring ?
-                            (
-                                <div>
-                                    <h4>Employee Giving:</h4>
-                                    <SearchEmployees setID={setGiverID} setShow={setShowInfoGiving} show={showInfoGiving} onClickOutside={() => { setShowInfoGiving(false) }} />
-                                    <h4>Employee Receiving:</h4>
-                                    <SearchEmployees setID={setReceiverID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfo(false) }} />
-                                    <h4>Date:</h4>
-                                    <input type="date" onChange={(e) => setDate(e.target.value)} />
-                                </div>
-                            ) : (
-                                <div>
-                                    <input type="text" className="me-3" value={questionPhrase} onChange={(e) => setQuestionPhrase(e.target.value)} />
-                                    <button type="button" className="btn btn-secondary" onClick={submitQuestion} >Add Question</button>
-                                </div>
-                            )}
-                    </div>
-                )
-            })}
 
         </div>
     )

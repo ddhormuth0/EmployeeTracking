@@ -8,9 +8,8 @@ function PrintScoreInfo(props) {
     return (
         <div>
 
-
-            <div key={props.score_info.score_info_id}>
-
+            <div>
+                {console.log(props.selectedScores)}
                 <h1>{props.score_info.title}</h1>
                 {/* print questions here with score and comment*/}
                 {props.selectedQuestions.map(question => {
@@ -24,6 +23,10 @@ function PrintScoreInfo(props) {
                     )
                 })}
 
+                <h5>Employee Giving:</h5>
+                <h4>{props.score_info.g_fName + " " + props.score_info.g_lName}</h4>
+                <h5>Employee Receiving:</h5>
+                <h4>{props.score_info.fName + " " + props.score_info.lName}</h4>
 
                 {/* print employees here */}
 

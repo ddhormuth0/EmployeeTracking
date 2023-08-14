@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import MediaQuery from "react-responsive";
-import PrintScoreInfo from "./PrintScoreInfo"
+import MediaQuery from "react-responsive"
+import PrintOrEditScore from "./PrintOrEditScore"
 import DeleteScore from "./DeleteScore"
 
 function ScoredForms(props) {
@@ -12,6 +12,7 @@ function ScoredForms(props) {
     const [selectedScores, setSelectedScores] = useState([])
     const [selectedScoreInfo, setSelectedScoreInfo] = useState([])
     const [scoreToDelete, setScoreToDelete] = useState("")
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     function setClickedScoreInfo(score_info) {
         setSelectedScoreInfo(score_info)
@@ -34,8 +35,11 @@ function ScoredForms(props) {
 
     //the information we are getting from the backend
     useEffect(() => {
+        const modalElement = document.getElementById("scoreModal")
+
+        modalElement.addEventListener("hidden.bs.modal", handleModalClose)
         //get request
-        if (selectedQuestions.length === 0 && selectedScores.length === 0) {
+        if (selectedQuestions.length === 0 || selectedScores.length === 0 || selectedScoreInfo.length === 0) {
             setIsLoading(true)
         } else {
             setIsLoading(false)
@@ -48,8 +52,16 @@ function ScoredForms(props) {
             //catches errors
             .catch(err => console.log(err))
 
-    }, [selectedQuestions, selectedScores, stateTracker])
+    }, [selectedQuestions, selectedScoreInfo, selectedScores, stateTracker])
     // [] at the end determines when to make the request, [ ] by itself only makes the request once
+
+    const handleModalClose = () => {
+        setSelectedScores([])
+        setSelectedQuestions([])
+        setSelectedScoreInfo([])
+        setIsModalOpen(false);
+        // Reset any other necessary state variables here
+    };
 
     //return the html
     return (
@@ -59,7 +71,7 @@ function ScoredForms(props) {
                 <div className="modal-dialog modal-xl">
                     <div className="modal-content">
                         <div className="modal-body">
-                            {!isLoading && <PrintScoreInfo score_info={selectedScoreInfo} selectedQuestions={selectedQuestions} selectedScores={selectedScores} />}
+                            {isModalOpen && !isLoading && <PrintOrEditScore selectedScoreInfo={selectedScoreInfo} selectedQuestions={selectedQuestions} selectedScores={selectedScores} />}
                         </div>
                     </div>
                 </div>
@@ -84,7 +96,7 @@ function ScoredForms(props) {
                         let newDate = new Date(score_info.s_date.substring(0, 4), (parseInt(score_info.s_date.substring(5, 7)) - 1).toString(), score_info.s_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" })
                         return (
                             //on click we are going to pass the employee_id to the setClickedEmployee and activate the overlay
-                            <tr key={score_info.score_info_id} aria-expanded="false" data-bs-toggle="modal" data-bs-target="#scoreModal" onClick={() => { setClickedScoreInfo(score_info); }}>
+                            <tr key={score_info.score_info_id} aria-expanded="false" data-bs-toggle="modal" data-bs-target="#scoreModal" onClick={() => { setClickedScoreInfo(score_info); setIsModalOpen(true); }}>
                                 <td>{score_info.fName + " " + score_info.lName}</td>
                                 <td>{score_info.title}</td>
                                 {/* if the screen is above 600px display this information */}

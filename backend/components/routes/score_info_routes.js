@@ -106,7 +106,6 @@ router.route("/")
                 conn.query(getLastId, (error, result) => {
                     conn.release()
                     if (error) throw error
-                    console.log(result)
                     res.json(result)
                 })
             })

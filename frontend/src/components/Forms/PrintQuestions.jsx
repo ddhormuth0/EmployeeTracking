@@ -5,6 +5,7 @@ function PrintQuestions(props) {
     const [scale, setScale] = useState([])
     const [scores, setScores] = useState([])
     const [comments, setComments] = useState([])
+    const [initialSetUp, setInitialSetUp] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -31,21 +32,44 @@ function PrintQuestions(props) {
     function handleChange(index, value, isScore) {
         //if a score is changed set the scores, else set the comments
         if (isScore) {
-            let arr = scores;
-            arr[index] = value;
+            let arr = [...scores]
+            arr[index] = value
+            console.log(arr)
             setScores(arr)
         } else {
-            let arr = comments;
-            arr[index] = value;
+            let arr = [...comments]
+            arr[index] = value
             setComments(arr)
         }
     }
+    //initializes the scores and comments if they were given
+    function setScoresAndComments() {
+        const updatedScores = [...scores]
+        const updatedComments = [...comments]
+        //for each score we were given, add them to the comments and scores
+        props.givenScores.forEach(score => {
+            //-1 on the question, because we are storing question 1 at index 0 and so on
+            const index = score.question_id - 1
+            
+            updatedScores[index] = score.score
+            updatedComments[index] = score.comments
+        })
+
+        setScores(updatedScores)
+        setComments(updatedComments)
+    }
 
     useEffect(() => {
+        //if we haven't changed any scores and given score exists, then call the function to initialize scores and comment
+        if (!initialSetUp && props.givenScores != null) {
+            setScoresAndComments()
+            setInitialSetUp(true)
+        }
         props.setQuestionNumber(props.questions.length + 1)
         if (props.isScoring) setScale(printScores())
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props])
+    }, [scores, comments, props])
 
     function deleteQuestion(question_id) {
 
@@ -77,6 +101,7 @@ function PrintQuestions(props) {
             <form onSubmit={(e) => { handleSubmit(e) }}>
                 {props.questions.map(question => {
                     return (
+
                         <div key={question.question_id}>
                             <h3 className="d-inline-block">{question.question_id + ". " + question.question_phrase}</h3>
                             {!props.isScoring && <button type="button" className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" onClick={() => deleteQuestion(question.question_id)}></button>}
@@ -91,7 +116,8 @@ function PrintQuestions(props) {
                                                         <div>
                                                             <label className="form-check-label me-2" >{number + ". "}</label>
                                                             {/* subtract one from question id so it is at the beginning of the array */}
-                                                            <input className="form-check-input" type="radio" name={"question" + question.question_id} value={number} required onChange={() => handleChange(question.question_id - 1, number, true)} /><br />
+                                                            <input className="form-check-input" type="radio" name={"question" + question.question_id} value={number} checked={scores[question.question_id - 1] === number} required onChange={() => handleChange(question.question_id - 1, number, true)} />
+                                                            <br />
                                                         </div>
                                                     </div>
                                                 )
@@ -99,16 +125,16 @@ function PrintQuestions(props) {
                                         </div>
                                         <div className="col d-flex">
                                             {/* subtract one from question id so it is at the beginning of the array */}
-                                            <textarea type="text" className="flex-fill" name={"comment" + question.question_id} onChange={(e) => handleChange(question.question_id - 1, e.target.value, false)} />
+                                            <textarea type="text" className="flex-fill" name={"comment" + question.question_id} value={comments[question.question_id - 1]} onChange={(e) => handleChange(question.question_id - 1, e.target.value, false)} />:
                                         </div>
                                     </div>
                                 }
                                 {/* if we are viewing the score do this */}
                                 {props.isViewingScore &&
-                                <div>
-                                    <h5>{"Score: " + props.selectedScores[question.question_id].score}</h5>
-                                    <p>{props.selectedScores[question.question_id].comment}</p>
-                                </div>
+                                    <div>
+                                        <h5>{"Score: " + props.selectedScores[question.question_id].score}</h5>
+                                        <p>{props.selectedScores[question.question_id].comment}</p>
+                                    </div>
                                 }
                             </div>
                         </div>
