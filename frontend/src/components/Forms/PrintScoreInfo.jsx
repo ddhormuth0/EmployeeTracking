@@ -1,5 +1,13 @@
 import React, { useEffect } from "react"
-
+/**
+ * Prints out a static form that cannot be edited
+ * @param {object} props 
+ * @param {object} props.score_info contains the title, giving and receiving employees, and the date
+ * @param {object[]} props.selectedQuestions the questions and their numbers plus phrases
+ * @param {object[]} props.selectedScores the scores for each question and their comments
+ * @example <PrintScoreInfo score_info={props.selectedScoreInfo} selectedQuestions={props.selectedQuestions} selectedScores={props.selectedScores} />
+ * @returns 
+ */
 function PrintScoreInfo(props) {
     useEffect(() => {
         
@@ -9,7 +17,7 @@ function PrintScoreInfo(props) {
         <div>
 
             <div>
-                {console.log(props.selectedScores)}
+
                 <h1>{props.score_info.title}</h1>
                 {/* print questions here with score and comment*/}
                 {props.selectedQuestions.map(question => {

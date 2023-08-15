@@ -1,7 +1,17 @@
+
 import React, { useState, useEffect } from "react"
 import WriteJournals from "./WriteJournals"
 import PrintJournals from "./PrintJournals"
-
+/**
+ * Prints out all journals, prints out one employees journal if parent = oneEmp
+ * @param {object} props 
+ * @param {integer} props.id the id of the employee we want to print journals for 
+ * @param {attribute} props.parent oneEmp if it is printing one employees journal, null if printing all
+ * @example 
+ * <JournalsHome parent="oneEmp" id={props.id} />
+ * <JournalsHome />
+ * @returns 
+ */
 function Journals(props) {
     //our states to get the journal data
     const [journals, setJournals] = useState([])
@@ -13,11 +23,11 @@ function Journals(props) {
     const today = new Date()
     //get a year agos date
     const yearAgo = new Date()
-    yearAgo.setDate(yearAgo.getDate()-365)
+    yearAgo.setDate(yearAgo.getDate() - 365)
     //dates to do journals for, first is the week ago date
-    const [startDate, setStartDate] = useState(yearAgo.toISOString().substring(0,10))
+    const [startDate, setStartDate] = useState(yearAgo.toISOString().substring(0, 10))
     //this is todays date
-    const [endDate, setEndDate] = useState(today.toISOString().substring(0,10))
+    const [endDate, setEndDate] = useState(today.toISOString().substring(0, 10))
     const [fromToAPIString, setFromToAPIString] = useState("&from=" + startDate + "&to=" + endDate)
 
     var findEmployee
@@ -32,7 +42,7 @@ function Journals(props) {
     //the information we are getting from the backend
     useEffect(() => {
         //get request
-        fetch(process.env.REACT_APP_PROXY + "/journals?show=" + show + fromToAPIString +findEmployee)
+        fetch(process.env.REACT_APP_PROXY + "/journals?show=" + show + fromToAPIString + findEmployee)
             //turns data into json
             .then(res => res.json())
             //put the data into the journals state
@@ -43,8 +53,8 @@ function Journals(props) {
     // [] at the end determines when to make the request, [ ] by itself only makes the request once
 
     //if the new date is empty then keep it the same
-    function shouldResetEnd(date){
-        if(date === ""){
+    function shouldResetEnd(date) {
+        if (date === "") {
             alert("Please Enter a Valid Date")
         } else {
             setEndDate(date)
@@ -53,8 +63,8 @@ function Journals(props) {
     }
 
     //if the new date is empty then keep it the same
-    function shouldResetStart(date){
-        if(date === ""){
+    function shouldResetStart(date) {
+        if (date === "") {
             alert("Please DO NOT Use Backspace")
         } else {
             setStartDate(date)
@@ -83,15 +93,15 @@ function Journals(props) {
                             </ul>
                         </div>
                         <div className="col-6 d-grid">
-                        {props.parent !== "oneEmp" &&<button data-bs-toggle="modal" data-bs-target="#addJournalModal" type="button" className="btn btn-primary">Add Journal</button>}
+                            {props.parent !== "oneEmp" && <button data-bs-toggle="modal" data-bs-target="#addJournalModal" type="button" className="btn btn-primary">Add Journal</button>}
                         </div>
                         <div className="col-6 d-grid">
                             <label>From:</label>
-                            <input type="date" value={startDate} className="btn btn-secondary" onChange={(e)=>shouldResetStart(e.target.value)}></input>
+                            <input type="date" value={startDate} className="btn btn-secondary" onChange={(e) => shouldResetStart(e.target.value)}></input>
                         </div>
                         <div className="col-6 d-grid">
                             <label>To:</label>
-                            <input type="date" value={endDate} className="btn btn-secondary" onChange={(e)=>shouldResetEnd(e.target.value)}></input>
+                            <input type="date" value={endDate} className="btn btn-secondary" onChange={(e) => shouldResetEnd(e.target.value)}></input>
                         </div>
                     </div>
                 </div>

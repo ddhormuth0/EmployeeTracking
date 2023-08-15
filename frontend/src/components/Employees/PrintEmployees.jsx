@@ -5,7 +5,11 @@ import AddEmployee from "./AddEmployee";
 import DeleteEmployee from "./DeleteEmployee";
 
 //add render for above 600 px and add render for below 600 px
-
+/**
+ * Prints out all employees
+ * @example <PrintEmployees />
+ * @returns 
+ */
 function PrintEmployees() {
     const [employees, setEmployees] = useState([]);
     //send this with get request to order page

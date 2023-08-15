@@ -1,8 +1,19 @@
 import React from "react"
 import authHeader from "../services/auth_header"
 
+/**
+ * Prints the confirmation modal that is called to delete a scored form
+ * @param {object} props 
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <DeleteScore scoreToDelete={scoreToDelete} state={stateTracker} changeState={setStateTracker} />
+ * @returns 
+ */
 function DeleteForm(props) {
 
+    /**
+     * Makes a DELETE request to the api in order to remove the score
+     */
     function deleteScore() {
 
         //stops page from refreshing after submit

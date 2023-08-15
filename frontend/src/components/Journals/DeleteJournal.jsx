@@ -1,6 +1,14 @@
 import React from "react"
 import authHeader from "../services/auth_header"
-
+/**
+ * The modal that pops up to confirm the deletion of a journal
+ * @param {object} props 
+ * @param {integer} props.journal_id the id of the journal we are going to delete
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <DeleteJournal state={props.state} changeState={props.changeState} journal_id={journalToDelete} />
+ * @returns 
+ */
 function DeleteJournal(props) {
 
     function deleteJournal() {

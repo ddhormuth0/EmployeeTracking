@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react"
 import authHeader from "../services/auth_header"
 
+/**
+ * 
+ * @param {object} props 
+ * @param {boolean} props.state state variable that triggers rerenders
+ * @param {setState} props.changeState function that sets the current value of the state variable
+ * @example <AddEmployee state={stateTracker} changeState={setStateTracker} />
+ * @returns 
+ */
 function AddEmployee(props) {
 
     const [firstName, setFirstName] = useState('')

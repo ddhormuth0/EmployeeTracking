@@ -3,6 +3,20 @@ import PrintQuestions from "./PrintQuestions"
 import authHeader from "../services/auth_header"
 import SearchEmployees from "../Search/SearchEmployees"
 
+/**
+ * A dynamic page, based on the isScoring prop it will change. If props.isScoring is true, it will print out the form with radio dials to score the form, else it will print out the form
+ * and allow the ability to add or delete questions from the form. If givenScores is not null, then the scoring will have the questions already filled out, allowing the user to edit the 
+ * graded form
+ * @param {object} props
+ * @param {object} props.form - this is either the selected form, or the selected score_info, based on if it is scoring or editing a form
+ * @param {object[]} props.givenScores if the scored form is being edited, it will come with all of the original answers and comments
+ * @param {object[]} props.questions the questions of the selected form
+ * @param {boolean} props.isScoring determines the layout of the page
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <PrintForm state={stateTracker} changeState={setStateTracker} isScoring={props.isScoring} form={selectedFormData} questions={formQuestions} /> * 
+ * @returns 
+ */
 function PrintForm(props) {
     //used for adding new questions 
     const [questionPhrase, setQuestionPhrase] = useState("")

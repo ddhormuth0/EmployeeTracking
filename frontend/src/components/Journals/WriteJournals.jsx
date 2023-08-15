@@ -2,6 +2,14 @@ import React, { useEffect, useState } from "react"
 import SearchEmployees from "../Search/SearchEmployees"
 import authHeader from "../services/auth_header"
 
+/**
+ * 
+ * @param {object} props 
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <WriteJournals changeState={setStateTracker} state={stateTracker} />
+ * @returns 
+ */
 function WriteJournals(props) {
 
     // const [employeeFullName, setEmployeeFullName] = useState("")

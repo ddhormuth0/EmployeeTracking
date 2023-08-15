@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react"
 import authHeader from "../services/auth_header"
 import SearchEmployees from "../Search/SearchEmployees"
 
+/**
+ * Prints the modal that creates a form and adds it to the database
+ * @param {object} props 
+ * @param {boolean} props.state state variable that triggers rerenders
+ * @param {setState} props.changeState function that sets the current value of the state variable
+ * @example <AddForm state={stateTracker} changeState={setStateTracker} />
+ * @returns 
+ */
 function AddForm(props) {
 
     const [title, setTitle] = useState("")
@@ -20,7 +28,10 @@ function AddForm(props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [title, scale, employee_id])
 
-    //handles the submit request by sending a post request
+    /**
+     * On click of a button, this will submit the form to be graded
+     * @param {object} evt - used as evt.preventDefault() to stop page refresh
+     */
     function handleClick(evt) {
         //stops page from refreshing after submit
         evt.preventDefault()
@@ -55,7 +66,9 @@ function AddForm(props) {
             }).catch((err) => console.log(err))
         }
     }
-
+    /**
+     * Checks to see if a form is ready to submit. If employee_id, title, or scale are blank then it does not submit
+     */
     function shouldSubmit() {
         if (employee_id === "" || title === "" || scale === "") {
             setDismiss("")

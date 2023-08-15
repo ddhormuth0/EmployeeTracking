@@ -1,5 +1,9 @@
 import React from "react"
-
+/**
+ * Basic home page that has information about the web application
+ * @example <Home />
+ * @returns 
+ */
 function Home() {
     return (
         <div>

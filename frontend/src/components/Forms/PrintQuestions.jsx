@@ -1,6 +1,23 @@
 import React, { useEffect, useState } from "react"
 import authHeader from "../services/auth_header"
 
+/**
+ * Prints out the questions of the selected form, and if the form is being graded it will print out dials and text boxes for submission. Also allows for questions to be
+ * added if it is not scoring
+ * @param {object} props 
+ * @param {object[]} props.questions the questions of the selected form
+ * @param {object[]} props.givenScores if we are editing scores, these are the original scores that were given
+ * @param {integer} props.form_id the form we are printing out questions for
+ * @param {function} props.submitScore calls the parent function to submit the given score
+ * @param {boolean} props.isScoring determines the layout of the page
+ * @param {string} props.dismiss determines if the modal will dimiss on submit
+ * @param {integer} props.scale the scale of the questions, so a 3 point scale represents a score of 1 to 3
+ * @param {setState} props.setQuestionNumber determines what the next question would be if another were added 
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <PrintQuestions dismiss={dismiss} submitScore={submitScore} givenScores={props.givenScores} scale={props.form.scale} changeState={props.changeState} state={props.state} isScoring={props.isScoring} questions={props.questions} setQuestionNumber={setQuestionNumber} form_id={props.form.form_id} />
+ * @returns 
+ */
 function PrintQuestions(props) {
     const [scale, setScale] = useState([])
     const [scores, setScores] = useState([])

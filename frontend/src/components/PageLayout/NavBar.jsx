@@ -3,6 +3,14 @@ import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import authService from "../services/auth_service"
 
+/**
+ * 
+ * @param {object} props 
+ * @param {boolean} props.checkAccount sees if the user is logged in
+ * @param {setState} props.setCheckAccount sets the checkAccount state
+ * @example <NavBar checkAccount={props.checkAccount} setCheckAccount={props.setCheckAccount}/>
+ * @returns 
+ */
 function NavBar(props) {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)

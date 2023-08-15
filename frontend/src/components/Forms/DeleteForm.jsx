@@ -1,8 +1,21 @@
 import React from "react"
 import authHeader from "../services/auth_header"
 
+/**
+ * Prints the modal that is called to delete a selected form
+ * @param {object} props
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @param {object} props.form_id the form that is being targeted by the delete
+ * @example <DeleteForm state={stateTracker} changeState={setStateTracker} form_id={formToDelete} />
+ * 
+ * 
+ * */
 function DeleteForm(props) {
 
+    /**
+     * Makes a delete request to the api to remove the form that matches props.form_id
+     */
     function deleteForm() {
 
         //stops page from refreshing after submit

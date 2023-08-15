@@ -1,6 +1,12 @@
 import React from "react"
 import JournalsHome from "./JournalsHome"
-
+/**
+ * Prints out one employees journals
+ * @param {object} props 
+ * @param {integer} props.id employee id that is selected
+ * @example <OneEmployeesJournals id={clickedEmployee} />
+ * @returns 
+ */
 function OneEmployeesJournals(props) {
 
     return (

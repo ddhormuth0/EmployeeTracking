@@ -3,12 +3,21 @@ import AddForm from "./AddForm"
 import DeleteForm from "./DeleteForm"
 import PrintForm from "./PrintForm"
 
+/**
+ * A dynamic page. Based on isScoring parameter, the page will change. If it is true, it sets up the page to score an employee, if it is false it sets up the page to create a form
+ * @param {object} props 
+ * @param {boolean} props.isScoring boolean that changes the page.
+ * @example <Forms isScoring={false}/>
+ * @returns 
+ */
 function Forms(props) {
     //our states to get the forms data
     const [formData, setFormData] = useState([])
     //the state tracker checks if items were removed or deleted, this will refresh the page
     const [stateTracker, setStateTracker] = useState(false)
+    //form that is displayed when selected
     const [formToDelete, setFormToDelete] = useState("")
+    //form that is deleted when selected
     const [formToSelect, setFormToSelect] = useState("")
     const [selectedFormData, setSelectedFormData] = useState()
     const [formQuestions, setFormQuestions] = useState([])
@@ -56,6 +65,7 @@ function Forms(props) {
                         <DeleteForm state={stateTracker} changeState={setStateTracker} form_id={formToDelete} />
                     </div>
                     <div className="modal fade" id="addFormModal" tabIndex="-1" aria-hidden="true">
+                        rerenders the addform on add so that the input is reset
                         {stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
                         {!stateTracker && <AddForm state={stateTracker} changeState={setStateTracker} />}
                     </div>

@@ -2,7 +2,17 @@ import React, { useEffect, useState } from "react"
 import PrintScoreInfo from "./PrintScoreInfo"
 import PrintForm from "./PrintForm";
 
-
+/**
+ * A dynamic page. It prints out scores and questions in a complete page and allows the user to edit or view the scores. Depending on that input, the page changes.
+ * @param {object} props 
+ * @param {object} props.selectedScoreInfo the score_info that contains the title, date, giving, and receiving employees
+ * @param {object[]} props.selectedQuestions the questions of the selected form that will be printed out
+ * @param {object[]} props.selectedScores the scores of the selected score_info that include scores and comments
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <PrintOrEditScore selectedScoreInfo={selectedScoreInfo} selectedQuestions={selectedQuestions} selectedScores={selectedScores} />
+ * @returns 
+ */
 function Forms(props) {
     const [viewOrEdit, setViewOrEdit] = useState("View")
 

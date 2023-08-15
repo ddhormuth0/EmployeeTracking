@@ -2,6 +2,16 @@ import React, { useState } from "react";
 import DeleteJournal from "./DeleteJournal"
 const _ = require("lodash");
 
+/**
+ * 
+ * @param {object} props 
+ * @param {string} props.parent the parent of the form, if it is oneEmp then it only prints one employees
+ * @param {object[]} props.journalsToPrint the journals with the information that will be printed
+ * @param {boolean} props.state the state that is changed so that the page is rerendered
+ * @param {setState} props.changeState: changes the state
+ * @example <PrintJournals parent={props.parent} journalsToPrint={journals} changeState={setStateTracker} state={stateTracker} />
+ * @returns 
+ */
 function PrintJournals(props) {
     const [journalToDelete, setJournalToDelete] = useState(0);
     //css for card color, it can change
@@ -18,7 +28,7 @@ function PrintJournals(props) {
             }
             {props.journalsToPrint.map((journal) => {
                 //changes the format of the date
-                const journalDate = new Date(journal.j_date.substring(0, 4), (parseInt(journal.j_date.substring(5, 7))-1).toString(), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" })
+                const journalDate = new Date(journal.j_date.substring(0, 4), (parseInt(journal.j_date.substring(5, 7)) - 1).toString(), journal.j_date.substring(8, 10)).toLocaleDateString('en-us', { weekday: "short", year: "numeric", month: "short", day: "numeric" })
 
                 return (
                     <div key={journal.journal_id} className="row px-4 my-5 position-relative">
@@ -33,16 +43,16 @@ function PrintJournals(props) {
                                         : cardColor = "card-header text-bg-white"}>
                                 <h5 className="ms-0 mb-0 d-inline-block">{_.upperFirst(journal.good_bad_info)}</h5>
                                 {/* cant call a modal in a modal so we cant call it in one emp */}
-                                {props.parent !== "oneEmp" &&<button data-bs-toggle="modal" data-bs-target="#deleteModal" type="button" className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" aria-label="Close" onClick={() => setJournalToDelete(journal.journal_id)}></button>}
+                                {props.parent !== "oneEmp" && <button data-bs-toggle="modal" data-bs-target="#deleteModal" type="button" className="d-inline-block position-absolute end-0 me-4 mb-0 btn-close" aria-label="Close" onClick={() => setJournalToDelete(journal.journal_id)}></button>}
                             </div>
                             <div className="card-body">
                                 <h2 className="text-center">{journal.fName + " " + journal.lName}</h2>
                                 <p className="my-4 p-3 border border-3 rounded-pill">{journal.content}</p>
                             </div>
                             <div className="card-footer">
-                                <p className="mb-0 ms-0">{journalDate}</p> 
+                                <p className="mb-0 ms-0">{journalDate}</p>
                                 {/* displays the giving employees first initial and last name */}
-                                <p className="end-0 me-4 mb-0">{journal.g_fName.substring(0,1) + ". " + journal.g_lName}</p>
+                                <p className="end-0 me-4 mb-0">{journal.g_fName.substring(0, 1) + ". " + journal.g_lName}</p>
                             </div>
                         </div>
                     </div>

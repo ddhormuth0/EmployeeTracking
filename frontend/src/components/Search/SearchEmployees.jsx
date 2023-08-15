@@ -3,9 +3,16 @@
 // const [showInfo, setShowInfo] = useState(false)
 // <SearchEmployees setID={setEmployeeID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfo(false) }} />
 
-
 import React, { useState, useEffect, useRef } from "react"
-
+/**
+ * Searches for an employee, must have states in parent like this : const [showInfo, setShowInfo] = useState(false)
+ * @param {object} props 
+ * @param {setState} props.setID sets the selected employee id
+ * @param {setState} props.setShow sets if we should show id or not
+ * @param {boolean} props.show determins if the dropdown of employees is shown or not
+ * @example <SearchEmployees setID={setEmployeeID} setShow={setShowInfo} show={showInfo} onClickOutside={() => { setShowInfo(false) }} />
+ * @returns 
+ */
 function SearchEmployees(props) {
 
     const ref = useRef(null)

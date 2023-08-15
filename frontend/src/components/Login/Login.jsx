@@ -1,8 +1,15 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import AuthService from "../services/auth_service"
-import NavBar from "../PageLayout/NavBar"
 
+/**
+ * 
+ * @param {object} props 
+ * @param {boolean} props.checkAccount sees if the user is logged in
+ * @param {setState} props.setCheckAccount sets the checkAccount state
+ * @example <Login checkAccount={checkAccount} setCheckAccount={setCheckAccount} />
+ * @returns 
+ */
 function Login(props) {
 
     const navigate = useNavigate()
@@ -15,7 +22,7 @@ function Login(props) {
         AuthService.login(username, password)
         //if it is succesful navigate back home
         .then(()=>{
-            props.setCheckAccount(props.setCheckAccount(props.checkAccount?false:true))
+            props.setCheckAccount(props.setCheckAccount(!props.checkAccount))
             navigate("/", { replace: true })
         })
         //logs status

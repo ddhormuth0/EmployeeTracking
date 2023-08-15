@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react"
 import MediaQuery from "react-responsive"
 import PrintOrEditScore from "./PrintOrEditScore"
 import DeleteScore from "./DeleteScore"
-
-function ScoredForms(props) {
+/**
+ * The home page foe the scored forms, it prints out all scored forms in order from most recent to least
+ * @example <ScoredForms />
+ * @returns 
+ */
+function ScoredForms() {
     //our states to get the forms data
     const [stateTracker, setStateTracker] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
